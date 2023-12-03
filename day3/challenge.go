@@ -13,26 +13,22 @@ func Challenge() {
 
 	str := string(content)
 	lines := strings.Split(str, "\n")
-	lineLength := len(lines[0])
 	re := regexp.MustCompile(`[!@#\$%^&*()_+\-=\[\]{};':"\\|,<>\/?]`)
 	var values []string
 
 	for i, line := range lines {
-		charactersIndex := re.FindStringIndex(line)
+		characters := re.FindAllStringIndex(line, len(line))
+		
+		for _, character := range characters {
+			value := strings.Split(lines[i - 1], "")[character[0] - 1]
 
-		for j, character := range charactersIndex {
-			realPosition := i * lineLength + character
-			
+			if convertedValue, err := strconv.Atoi(value); err == nil {
+				if 
+			}
 		}
 	}
 
 	total := 0
-
-	for _, value := range values {
-		if convertedValue, err := strconv.Atoi(value); err == nil {
-			total += convertedValue
-		}
-	}
 
 	fmt.Println(values)
 	fmt.Println(total)
