@@ -26,5 +26,5 @@ func Challenge() {
 		results += convert
 	}
 
-	fmt.Println(results)
+	fmt.Println("Day 1: ", results)
 }
