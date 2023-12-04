@@ -1,18 +1,20 @@
-package day2
+package puzzle
 
 import (
+	"core"
 	"fmt"
-	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
 )
 
-func Challenge() {
-	content, _ := ioutil.ReadFile("./data/day2_input.txt")
+type Day2 struct {
+	core.Puzzle
+}
 
-	str := string(content)
+func (p *Day2) Puzzle2(path string) {
+	str := p.GetData(path)
 	lines := strings.Split(str, "\n")
 	games := 0
 

@@ -1,4 +1,4 @@
-package day1
+package puzzle
 
 import (
 	"core"
@@ -9,11 +9,11 @@ import (
 )
 
 type Day1 struct {
-	core.Challenge
+	core.Puzzle
 }
 
-func (c *Day1) ChallengeDay1() {
-	str := c.GetData("./data/day1_input.txt")
+func (p *Day1) Puzzle1(path string) {
+	str := p.GetData(path)
 	lines := strings.Split(str, "\n")
 	re := regexp.MustCompile(`\d`)
 	results := 0

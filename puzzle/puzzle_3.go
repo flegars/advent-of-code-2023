@@ -1,25 +1,27 @@
-package day3
+package puzzle
 
 import (
+	"core"
 	"fmt"
-	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
 	"golang.org/x/exp/slices"
 )
 
-func Challenge() {
-	content, _ := ioutil.ReadFile("./data/day3_input.txt")
+type Day3 struct {
+	core.Puzzle
+}
 
-	str := string(content)
+func (p *Day3) Puzzle3(path string) ([]int, int) {
+	str := p.GetData(path)
 	lines := strings.Split(str, "\n")
 	re1 := regexp.MustCompile(`[!@#\$%^&*()_+\-=\[\]{};':"\\|,<>\/?]`)
 	re2 := regexp.MustCompile(`\d+`)
 	var total []int
 	
 	for i, line := range lines {
-		fmt.Println("Line #", i)
+		fmt.Println("Line #", i + 1)
 		numbers := re2.FindAllStringIndex(line, len(line))
 		var indexes [][]int
 		var baseIndex [][]int
@@ -30,9 +32,9 @@ func Challenge() {
 		}
 
 		for j, indexNumber := range indexes {
+			stop := false
 			if i > 0 {
-				lineBefore := lines[i - 1]
-				
+				lineBefore := lines[i - 1]				
 				for _, specialCharacter := range re1.FindAllStringIndex(lineBefore, len(lineBefore)) {
 					if slices.Contains(indexNumber, specialCharacter[0]) {
 	
@@ -45,15 +47,23 @@ func Challenge() {
 
 						convertVal, _ := strconv.Atoi(val)
 						total = append(total, convertVal)
-						fmt.Println(convertVal)
+						stop = true
+						break
 					}
 				}
 			}
 
-			lineCurrent := lines[i]
-				
+			if (stop) {
+				continue
+			}
+
+			lineCurrent := lines[i]	
 			for _, specialCharacter := range re1.FindAllStringIndex(lineCurrent, len(lineCurrent)) {
-				if slices.Contains(indexNumber, specialCharacter[0]) {
+				if slices.Index(indexNumber, specialCharacter[1]) == 0 {
+					continue
+				}
+
+				if slices.Contains(indexNumber, specialCharacter[1]) {
 					splittedLine := strings.Split(line, "")
 					val := ""
 
@@ -63,13 +73,17 @@ func Challenge() {
 
 					convertVal, _ := strconv.Atoi(val)
 					total = append(total, convertVal)
-					fmt.Println(convertVal)
+					stop = true
+					break
 				}
+			}
+
+			if (stop) {
+				continue
 			}
 
 			if i < len(lines) {
 				lineAfter := lines[i + 1]
-				
 				for _, specialCharacter := range re1.FindAllStringIndex(lineAfter, len(lineAfter)) {
 					if slices.Contains(indexNumber, specialCharacter[0]) {
 						splittedLine := strings.Split(line, "")
@@ -81,16 +95,24 @@ func Challenge() {
 
 						convertVal, _ := strconv.Atoi(val)
 						total = append(total, convertVal)
-						fmt.Println(convertVal)
 					}
 				}
 			}
 		}		
 	}
 
-	arr, result := removeDuplicatesAndSum(total)
+	arr := []int{}
+	result := 0
+
+	for _, r := range total {
+		arr = append(arr, r)
+		result += r
+	}
+
 	fmt.Println(arr)
 	fmt.Println(result)
+
+	return arr, result
 }
 
 func generateIndexes(start int, end int) []int {
@@ -105,22 +127,3 @@ func generateIndexes(start int, end int) []int {
 
 	return result
 }
-
-func removeDuplicatesAndSum(slice []int) ([]int, int) {
-	result := []int{}
-	total := 0
-
-	for i, r := range slice {
-		if i == 0 {
-			total += r
-			result = append(result, r)
-		}
-
-		if i > 0 && slice[i] != slice[i - 1] {
-			total += r
-			result = append(result, r)
-		}
-	}
-	
-	return result, total
- }

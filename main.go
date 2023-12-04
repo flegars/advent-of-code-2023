@@ -1,13 +1,11 @@
 package main
 
 import (
-	"day1"
-	"day2"
-	"day3"
+	"puzzle"
 )
 
 func main() {
-	day1.ChallengeDay1()
-	day2.Challenge()
-	day3.Challenge()
+	// new(puzzle.Day1).Puzzle1("./data/day1_input.txt")
+	// new(puzzle.Day2).Puzzle2("./data/day2_input.txt")
+	new(puzzle.Day3).Puzzle3("./data/day3_input.txt")
 }
