@@ -2,7 +2,9 @@ go 1.21.3
 
 use (
 	.
+	./core
 	./day1
 	./day2
 	./day3
+	./tests
 )

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	day1.Challenge()
+	day1.ChallengeDay1()
 	day2.Challenge()
 	day3.Challenge()
 }

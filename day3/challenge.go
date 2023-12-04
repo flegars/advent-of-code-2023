@@ -10,7 +10,7 @@ import (
 )
 
 func Challenge() {
-	content, _ := ioutil.ReadFile("./day3/input.txt")
+	content, _ := ioutil.ReadFile("./data/day3_input.txt")
 
 	str := string(content)
 	lines := strings.Split(str, "\n")

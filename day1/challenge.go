@@ -1,17 +1,19 @@
 package day1
 
 import (
+	"core"
 	"fmt"
-	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-func Challenge() {
-	content, _ := ioutil.ReadFile("./day1/input.txt")
+type Day1 struct {
+	core.Challenge
+}
 
-	str := string(content)
+func (c *Day1) ChallengeDay1() {
+	str := c.GetData("./data/day1_input.txt")
 	lines := strings.Split(str, "\n")
 	re := regexp.MustCompile(`\d`)
 	results := 0
