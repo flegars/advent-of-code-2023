@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-
 	"golang.org/x/exp/slices"
 )
 
@@ -16,12 +15,21 @@ type Day4 struct {
 func (p *Day4) Puzzle4(path string) int {
 	str := p.GetData(path)
 	lines := strings.Split(str, "\n")
-	result := 0
+	result := checkLines(lines)
+	return result
+}
 
-	for _, line := range lines {
+func checkLines(lines []string) int {
+	counts := make([]int, len(lines))
+	total := 0
+
+	for i := 0; i < len(lines); i++ {
+		counts[i] = 1
+	}
+
+	for i, line := range lines {
 		var winNums []int
 		var myNums []int
-		lineTotal := 0
 		splitted := strings.Split(strings.Split(line, ":")[1], "|")
 		
 		for _, winning := range strings.Split(splitted[0], " ") {
@@ -36,20 +44,24 @@ func (p *Day4) Puzzle4(path string) int {
 			}
 		}
 
+		wins := 0
 		for _, winNum := range winNums {
 			if slices.Contains(myNums, winNum) {
-				if lineTotal == 0 {
-					lineTotal = 1
-				} else {
-					lineTotal = lineTotal * 2
-				}
+				wins += 1
 			}
 		}
 
-		result += lineTotal
+		for j := i + 1; j <= i + wins; j++ {
+			counts[j] += counts[i]
+		}
+
 	}
 
-	fmt.Println(result)
+	for _, val := range counts {
+		total += val
+	}
 
-	return result
+	fmt.Println(total)
+
+	return total
 }
