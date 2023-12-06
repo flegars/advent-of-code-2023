@@ -13,7 +13,7 @@ type Day2 struct {
 	core.Puzzle
 }
 
-func (p *Day2) Puzzle2(path string) {
+func (p *Day2) PartA(path string) {
 	str := p.GetData(path)
 	lines := strings.Split(str, "\n")
 	games := 0

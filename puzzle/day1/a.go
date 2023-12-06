@@ -12,7 +12,7 @@ type Day1 struct {
 	core.Puzzle
 }
 
-func (p *Day1) Puzzle1(path string) {
+func (p *Day1) PartA(path string) {
 	str := p.GetData(path)
 	lines := strings.Split(str, "\n")
 	re := regexp.MustCompile(`\d`)
