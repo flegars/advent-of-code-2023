@@ -4,6 +4,7 @@ import (
 	"core"
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -28,17 +29,45 @@ func (p *Day7A) PartA(path string) int {
 	}
 
 	sort.Slice(resultHands, func(i, j int) bool {
-		return resultHands[i].Type < resultHands[j].Type
+		return resultHands[i].Type > resultHands[j].Type
 	})
 
-	fmt.Println(resultHands)
-
+	groupedAndOrderedHands := make(map[int][]Hand)
 	for _, hand := range resultHands {
-		fmt.Println(hand.Hand)
-		fmt.Println(hand.Type)
+		groupedAndOrderedHands[hand.Type] = append(groupedAndOrderedHands[hand.Type], hand)
 	}
 
-	return 0
+	var results []Hand
+	for _, groupedHand := range groupedAndOrderedHands {
+		sort.Slice(groupedHand, func(i, j int) bool {
+			for k := 0; k < 5; k++ {
+				if cards[strings.Split(groupedHand[i].Hand, "")[k]] == cards[strings.Split(groupedHand[j].Hand, "")[k]] {
+					continue
+				}
+
+				return cards[strings.Split(groupedHand[i].Hand, "")[k]] > cards[strings.Split(groupedHand[j].Hand, "")[k]]
+			}
+
+			return false
+		})
+
+		results = append(results, groupedHand...)
+	}
+
+	var bids []int
+	for _, result := range results {
+		val, _ := strconv.Atoi(strings.ReplaceAll(strings.Split(result.Hand, " ")[1], "\r", ""))
+		bids = append(bids, val)
+	}
+
+	result := 0
+	for i, v := range bids {
+		result += (v * (i + 1))
+	}
+
+	fmt.Println(result)
+
+	return result
 }
 
 func getType(hand string, cards map[string]int, types map[string]int) int {
